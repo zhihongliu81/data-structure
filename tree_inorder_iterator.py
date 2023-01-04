@@ -20,7 +20,24 @@ def inorder(root):
     return res
 
 
+def preorder(root):
+    stack = [root]
+    res = []
 
+    while stack:
+        node = stack.pop()
+        res.append(node.val)
+        if node.right:
+            stack.append(node.right)
+        if node.left:
+            stack.append(node.left)
+
+
+    return res
+
+def postorder(root):
+    stack = []
+    res = []
 
 root = TreeNode(4)
 node2 = TreeNode(2)
@@ -37,4 +54,8 @@ node3.left = node6
 node3.right = node7
 
 
-print(inorder(root))
+# print(inorder(root))
+res = preorder(root)
+print(res)
+res.reverse()
+print(res)

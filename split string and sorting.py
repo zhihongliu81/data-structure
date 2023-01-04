@@ -1,39 +1,33 @@
-def splitAndSort(string):
-    words = split(string)
-    words_sorted = sorted(words.items(), key=lambda item: (item[1], item[0]))
-    return words_sorted
+from operator import itemgetter
+def solution(S):
 
-
-
-def split(string):
+    string = S.lower()
+    letters = set("abcdefghijklmnopqrstuvwxyz")
+    words = []
     left = right = 0
-    res = {}
-    delim = set([" ", "&"])
     while right < len(string):
-        curr_char = string[right]
-        if curr_char in delim:
-            curr_word = string[left:right]
-            if curr_word in res:
-                res[curr_word] += 1
-            else:
-                res[curr_word] = 1
+        if string[right] in letters:
+            right += 1
+        else:
+            words.append(string[left: right])
             right += 1
             left = right
-        else:
-            right += 1
-    curr_word = string[left:right]
-    if curr_word in res:
-        res[curr_word] += 1
-    else:
-        res[curr_word] = 1
-    if "" in res:
-        del res[""]
-    return res
+    if left != right:
+        words.append(string[left: right])
+    res = {}
+    for word in words:
+        for i in range(len(word)):
+            for j in range(i, len(word)):
+                print(word[i:j + 1])
+                if word[i:j + 1] not in res:
+                    res[word[i:j + 1]] = 1
+                else:
+                    res[word[i:j + 1]] += 1
 
+    ans = sorted(res.items(), key=itemgetter(0))
+    ans.sort(key=itemgetter(1), reverse=True)
+    output = "\n".join(str(ele[1]) + ": " + ele[0] for ele in ans)
 
+    return output
 
-
-
-
-str1 = "    abc       abc a&&&&&&&&&&a&cd&nvbdk     "
-print(splitAndSort(str1))
+print(solution("banana boat"))
